@@ -9,12 +9,21 @@ import "./App.css";
 // 6. 데이터를 가져오는 동안 로딩 스피너가 보인다.
 
 function App() {
+  const API_KEY = import.meta.env.VITE_API_KEY;
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
-      console.log("현재 위치", lat, lon);
+      getWeatherByCurrentLocation(lat, lon);
     });
+  };
+
+  const getWeatherByCurrentLocation = async (lat, lon) => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    let response = await fetch(url);
+    let data = response.json();
+    console.log(data);
   };
 
   useEffect(() => {
